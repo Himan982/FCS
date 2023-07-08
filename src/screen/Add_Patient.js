@@ -1,5 +1,6 @@
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
+import DropDownPicker from 'react-native-dropdown-picker'
 
 const Add_Patient = () => {
     const [name, setName] = useState()
@@ -12,7 +13,19 @@ const Add_Patient = () => {
     const [alternateNumber, setAlternateNumber] = useState()
     const [category, setCategory] = useState('New')
     const [selected, setSelected] = useState(1)
+    const [open, setOpen] = useState(false)
+    const [openst, setOpenst] = useState(false)
+    const [openct, setOpenct] = useState(false)
+    const [statese, setStatese] = useState()
 
+
+    const items = [
+      {label: 'Madhya Pradesh', value: 'Madhya Pradesh'},
+      {label: 'Goa', value: 'Goa'},
+      {label: 'Bihar', value: 'Bihar'},
+      {label: 'Assam', value: 'Assam'},
+      {label: 'Gujart', value: 'Gujart'},
+    ]
 
     const save = () => {
         console.log("running")
@@ -47,45 +60,46 @@ const Add_Patient = () => {
       />
 
       <Text style = {styles.lable}>Country</Text>
-      <TextInput
-          style = {styles.inputs}
-          placeholder="Country"
-          blurOnSubmit
-          autoCorrect={false}
-          maxLength={30}
-          autoCapitalized="words"
-          placeholderTextColor="#777"
-          value={country}
-          onChangeText={text => setCountry(text)}
+      <DropDownPicker
+        style = {[styles.inputs,{width: 365}]}
+        items={items}
+        open={open}
+        setOpen={() => setOpen(!open)}
+        value={category}
+        setValue={(val) => setCountry(val)} 
+        maxHeight={50}
+        autoScroll
+        placeholder='Select category'
       />
 
 
+
       <Text style = {styles.lable}>State</Text>
-      <TextInput
-          style = {styles.inputs}
-          placeholder="State"
-          blurOnSubmit
-          autoCorrect={false}
-          maxLength={30}
-          autoCapitalized="words"
-          placeholderTextColor="#777"
-          value={states}
-          onChangeText={text => setState(text)}
+      <DropDownPicker
+        style = {[styles.inputs,{width: 365}]}
+        items={items}
+        open={openst}
+        setOpen={() => setOpenst(!openst)}
+        value={states}
+        setValue={(val) => setState(val)} 
+        maxHeight={50}
+        autoScroll
+        placeholder='Select state'
       />
 
 
 
       <Text style = {styles.lable}>City</Text>
-      <TextInput
-          style = {styles.inputs}
-          placeholder="City"
-          blurOnSubmit
-          autoCorrect={false}
-          maxLength={30}
-          autoCapitalized="words"
-          placeholderTextColor="#777"
-          value={city}
-          onChangeText={text => setCity(text)}
+      <DropDownPicker
+        style = {[styles.inputs,{width: 365}]}
+        items={items}
+        open={openct}
+        setOpen={() => setOpenct(!openct)}
+        value={city}
+        setValue={(val) => setCity(val)} 
+        maxHeight={50}
+        autoScroll
+        placeholder='Select city'
       />
 
 
