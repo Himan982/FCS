@@ -1,9 +1,31 @@
 import { View, Text, Button, TextInput, StyleSheet, Image } from 'react-native'
 import React, {useState, useEffect} from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Singup = ({navigation}) => {
+
+  useEffect(() => {
+    getdata();
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      return true
+    })
+    return unsubscribe
+  },[navigation])
+
+  const getdata = async () => {
+    try {
+      let flag = await AsyncStorage.getItem('key');
+      if(flag != null)
+      {
+        console.log(flag)
+        navigation.navigate('Home');
+      }
+    } catch (error) {
+      
+    }
+  }
 
 const [name, setname] = useState('');
 const [email, setemail] = useState();

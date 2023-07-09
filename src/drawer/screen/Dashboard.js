@@ -1,8 +1,47 @@
-import React from 'react';
-import { View, ScrollView, Text, StyleSheet, FlatList, Image } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import React, {useState, useEffect} from 'react';
+import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Dashboard = () => {
+
+
+  const [check, setChack] = useState(false);
+  const navigation = useNavigation()
+  const route = useRoute();
+
+  useEffect(() => {
+    getdata();
+    console.log(check)
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      return true
+    })
+    // console.log(unsubscribe)
+    return unsubscribe
+  },[navigation])
+
+
+  const getdata = async () => {
+    try {
+      let flag = await AsyncStorage.getItem('key');
+      if(flag != '')
+      {
+        console.log(flag)
+        setChack(true);
+        // navigation.navigate('Home');
+      }
+      else if(flag == null)
+      {
+        console.log(flag)
+        setChack(false);
+        // navigation.navigate('Home');
+      }
+    } catch (error) {
+      setChack(false);
+    }
+  }
+
   return (
     <View style={styles.appbg}>
         

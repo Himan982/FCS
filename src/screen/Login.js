@@ -1,21 +1,57 @@
 import { View, Text, Button, TextInput, StyleSheet, Image } from 'react-native'
 import React, {useState, useEffect} from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Login = ({navigation}) => {
+  useEffect(() => {
+    getdata();
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      e.preventDefault();
+    })
+    return unsubscribe
+  },[navigation])
+
+  const getdata = async () => {
+    try {
+      let flag = await AsyncStorage.getItem('key');
+      if(flag != null)
+      {
+        console.log(flag)
+        navigation.navigate('Home');
+      }
+    } catch (error) {
+      
+    }
+  }
 
   // const [isShowingText, setIsShowingText] = useState(true);
   const [name, setname] = useState('');
   const [pass, setpass] = useState();
 
-  function login() {
+  const login = async () => {
     if (name == 'Admin' && pass == "123456") {
+      try {
+        await AsyncStorage.setItem('key', 'admin');
+        console.log('run')
         navigation.navigate('Home');
+      } catch (e) {
+        
+      }
     }
-    else 
-    (
-      console.log("Try again")
-    )
+    else if (name == 'Himanshu' && pass == "123456")
+    {
+      try {
+        await AsyncStorage.setItem('key', 'staff');
+        console.log('run')
+        navigation.navigate('Home');
+      } catch (e) {
+        
+      }
+    } else{
+      console.log('try again')
+    }
   }
 
   function singup() {

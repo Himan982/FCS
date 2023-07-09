@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
         marginTop: 5
     },
     dropdowncard:{
-      width: 360,
+      width: 310,
       backgroundColor: '#E2E2E2',
       marginHorizontal: 15,
       elevation: 5,

@@ -1,14 +1,36 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CustomDrawer = ({navigation}) => {
+  useEffect(() => {
+    getdata()
+  })
 
   const [isPressed, setIsPressed] = useState(false);
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
-  const handlePress = () => {
-    setIsPressed(!isPressed);
-  };
+
+
+  const getdata = async () => {
+    try {
+      let flag = await AsyncStorage.getItem('key');
+      if(flag == 'admin')
+      {
+        setVisible(true)
+      }
+      else if (flag == 'staff')
+      {
+        setVisible(false)
+      }
+    } catch (error) {
+      
+    }
+  }
+
+  // const handlePress = () => {
+  //   setIsPressed(!isPressed);
+  // };
   
 
 
@@ -23,8 +45,14 @@ const CustomDrawer = ({navigation}) => {
         navigation.navigate('Fees_Report');
   }
 
-  function logout() {
-        navigation.navigate('Login');
+  const logout  = async () => {
+    try {
+      await AsyncStorage.clear()
+      navigation.navigate('Login');
+    } catch(e) {
+      // clear error
+    }
+      
   }
 
   return (
