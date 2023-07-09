@@ -95,6 +95,10 @@ return (
         }
       </View>
 
+      <View style = {{width: "100%", height: 15}}>
+
+      </View>
+
       <RefreshControl 
       refreshing={loading}
       onRefresh={() => {
@@ -108,14 +112,10 @@ return (
                   it(item.title, item.price);
               }}>
                       <View style={styles.itemView}>
-                          <Image source={{uri:item.image}} style={styles.productsimage} />
                           <View style = {{marginLeft: 10}}>
-                              <Text style = {{fontWeight: 'bold'}}>{item.title.length > 30
+                              <Text style = {styles.nametxt}>{item.title.length > 30
                               ? item.title.substring(0, 30) + '...'
                               : item.title}</Text>
-                              <Text>{item.description.length > 30
-                              ? item.description.substring(0, 30) + '...'
-                              : item.description}</Text>
                               <Text style={styles.price} >{item.price + " $"}</Text>
                           </View>
                       </View>
@@ -135,29 +135,31 @@ const styles = StyleSheet.create({
   },
   itemView:{
       width: '90%',
-      height: 100,
+      height: 60,
       backgroundColor: '#fff',
       alignSelf: 'center',
       marginTop: 10,
       flexDirection: 'row',
       elevation: 5,
-      borderRadius: 10
+      borderRadius: 10,
+      alignItems: 'center'
   },
-  productsimage:{
-      width: 100,
-      height: 100
+  nametxt:{
+    fontSize: 15,
+    color: 'black'
   },
   price:{
       fontWeight: 'bold',
       fontSize: 20,
-      marginTop: 8,
-      color: 'green'
+      marginTop: 2,
+      color: 'black'
   },
   searchbar:{
       width: '90%',
       height: 50,
       backgroundColor: "white",
       fontSize: 17,
+      color: 'black'
   },
   searchbarcom:{
       flexDirection: 'row',

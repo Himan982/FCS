@@ -1,31 +1,47 @@
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import DropDownPicker from 'react-native-dropdown-picker'
 
 const Add_Patient = () => {
     const [name, setName] = useState()
-    const [country, setCountry] = useState()
-    const [states, setState] = useState()
-    const [city, setCity] = useState()
+    const [country, setCountry] = useState('Country')
+    const [states, setState] = useState('States')
+    const [city, setCity] = useState('City')
     const [address, setAddress] = useState()
     const [pincode, setPincode] = useState()
     const [number, setNumber] = useState()
     const [alternateNumber, setAlternateNumber] = useState()
     const [category, setCategory] = useState('New')
-    const [selected, setSelected] = useState(1)
-    const [open, setOpen] = useState(false)
-    const [openst, setOpenst] = useState(false)
-    const [openct, setOpenct] = useState(false)
-    const [statese, setStatese] = useState()
+    const [selected, setSelected] = useState()
+    const [dropdowndata, setDropdowndata] = useState([
+      {data: ['India', 'USA', 'China'], isSelect: false},
+      {data: ['Madhya Pradesh', 'Bihar', 'Mumbai'], isSelect: false},
+      {data: ['Indore', 'Bhopal', 'Ahemdabad'], isSelect: false}])
+
+      const select = index => {
+        let tempdata=dropdowndata;
+        tempdata.map((item, ind) => {
+          if(index == ind)
+          {
+            item.isSelect =! item.isSelect;
+            setSelected(ind)
+          }
+          else
+          {
+            item.isSelect = false;
+          }
+        });
+
+        let temp = [];
+        tempdata.map(item => {
+          temp.push(item)
+        })
+        setDropdowndata(temp);
+      }
 
 
-    const items = [
-      {label: 'Madhya Pradesh', value: 'Madhya Pradesh'},
-      {label: 'Goa', value: 'Goa'},
-      {label: 'Bihar', value: 'Bihar'},
-      {label: 'Assam', value: 'Assam'},
-      {label: 'Gujart', value: 'Gujart'},
-    ]
+
+
 
     const save = () => {
         console.log("running")
@@ -58,65 +74,76 @@ const Add_Patient = () => {
           value={name}
           onChangeText={text => setName(text)}
       />
+      <View style= {{marginTop: 20}}></View>
+      <FlatList
+        data={dropdowndata}
+        style={{color: 'black', flexDirection: 'row'}}
+        renderItem={({item, index}) => {
+          return (
+            <TouchableOpacity 
+            style={styles.dropdowncard}
+            onPress={() => {
+              select(index);
+            }}
+            >
+              <View style={{flexDirection: 'row'}}>
+                <View>
+                {index == 0 ? <Text style={styles.dropdownheading}>{country} </Text>
+                : index == 1 ? <Text style={styles.dropdownheading}>{states} </Text>
+                : index == 2 ? <Text style={styles.dropdownheading}>{city} </Text>
+                : ''}</View>
+                {item.isSelect ? ( <Image style={styles.dropdownicon} source={require('./up.png')} />) 
+                : ( <Image style={styles.dropdownicon} source={require('./down.png')} />)}
+               
+              </View>
+              {item.isSelect && (              
+              <FlatList
+              data={item.data}
+              renderItem={({item, index}) => {
+                return(
+                <View style={styles.dropdownlist}>
+                  <TouchableOpacity
+                  onPress={() => {
+                    if(selected == 0)
+                    {
+                      setCountry(item)
+                      console.log(country)
+                    }
+                    else if(selected == 1)
+                    {
+                      setState(item)
+                    }
+                    else if(selected == 2)
+                    {
+                      setCity(item)
+                    }
+                  }}>
+                  <Text style={styles.dropdownlisttxt}>{item}</Text>
+                  </TouchableOpacity>
+                </View>
+                )
+              }}
+              />)}
 
-      <Text style = {styles.lable}>Country</Text>
-      <DropDownPicker
-        style = {[styles.inputs,{width: 365}]}
-        items={items}
-        open={open}
-        setOpen={() => setOpen(!open)}
-        value={category}
-        setValue={(val) => setCountry(val)} 
-        maxHeight={50}
-        autoScroll
-        placeholder='Select category'
+            </TouchableOpacity>
+          );
+        }}
       />
-
-
-
-      <Text style = {styles.lable}>State</Text>
-      <DropDownPicker
-        style = {[styles.inputs,{width: 365}]}
-        items={items}
-        open={openst}
-        setOpen={() => setOpenst(!openst)}
-        value={states}
-        setValue={(val) => setState(val)} 
-        maxHeight={50}
-        autoScroll
-        placeholder='Select state'
-      />
-
-
-
-      <Text style = {styles.lable}>City</Text>
-      <DropDownPicker
-        style = {[styles.inputs,{width: 365}]}
-        items={items}
-        open={openct}
-        setOpen={() => setOpenct(!openct)}
-        value={city}
-        setValue={(val) => setCity(val)} 
-        maxHeight={50}
-        autoScroll
-        placeholder='Select city'
-      />
-
 
       <Text style = {styles.lable}>Address</Text>
       <TextInput
-          style = {styles.inputs}
-          placeholder="Address"
-          blurOnSubmit
-          autoCorrect={false}
-          maxLength={30}
-          autoCapitalized="words"
-          placeholderTextColor="#777"
-          value={address}
-          onChangeText={text => setAddress(text)}
+        style = {[styles.inputs,{height: 100}]}
+        multiline={true}
+        numberOfLines={4} // optional, to set the initial number of lines visible
+        onChangeText={text => setAddress(text)}
+        value={address}
+        placeholder='Address'
+        autoCorrect={false}
+        maxLength={30}
+        autoCapitalized="words"
+        placeholderTextColor="#777"
       />
 
-  
       <Text style = {styles.lable}>Pincode</Text>
       <TextInput
           style = {styles.inputs}
@@ -233,6 +260,43 @@ const styles = StyleSheet.create({
         color: "black",
         marginTop: 5
     },
+    dropdowncard:{
+      width: 360,
+      backgroundColor: '#E2E2E2',
+      marginHorizontal: 15,
+      elevation: 5,
+      borderRadius:10,
+      marginBottom: 25,
+      borderWidth: 1
+    },
+   dropdownheading:{
+      color: 'black',
+      fontWeight: 'bold',
+      fontSize: 20,
+      paddingLeft: 6,
+      paddingVertical: 10,
+   },
+    dropdownlist:{
+      paddingLeft: 20,
+      borderBottomWidth: 1,
+
+    },
+    dropdownlisttxt:{
+      paddingHorizontal: 20,
+      color: 'black',
+      paddingVertical: 5,
+      marginVertical: 2,
+      // backgroundColor: 'blue',
+     
+      fontSize: 18
+    },
+    dropdownicon: {
+      height: 24,
+      width: 24,
+      right: 20,
+      position: 'absolute',
+      bottom: 10
+    },
     inputs:{
         fontSize: 20,
         height: 50,
@@ -243,6 +307,7 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         paddingLeft: 10,
         backgroundColor: "#E2E2E2",
+        color: 'black'
        },
     container:{
         width: "100%",

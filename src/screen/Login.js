@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
    borderColor: 'black',
    paddingLeft: 10,
    backgroundColor: "#E2E2E2",
+   color: 'black'
   },
 
   btn:{
@@ -106,8 +107,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     backgroundColor: "#1b75f0",
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "black"
   },
 
   btntext:{

@@ -5,14 +5,10 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const Addvisit = () => {
 
-    const [name, setName] = useState()
+    const [fee, setFee] = useState()
     const [country, setCountry] = useState()
-    const [states, setState] = useState()
-    const [city, setCity] = useState()
-    const [address, setAddress] = useState()
-    const [pincode, setPincode] = useState()
-    const [number, setNumber] = useState()
-    const [alternateNumber, setAlternateNumber] = useState()
+    const [diagnosis, setDiagnosis] = useState()
+    const [history, setHistory] = useState()
     const [category, setCategory] = useState('New')
     const [selected, setSelected] = useState(1)
     const [categorypay, setCategorypay] = useState('Cash')
@@ -21,6 +17,7 @@ const Addvisit = () => {
     const [cameraphotoname, setCameraphotoname] = useState('photo not selected');
     const [date , setDate] = useState("YYYY-MM-dd");
     const [datepicker , setDatepicker] = useState(false);
+    const [treatment , setTreatment] = useState();
   
     const showDatepicker = () => {
       setDatepicker(true);
@@ -73,7 +70,7 @@ const Addvisit = () => {
   return (
     <>
     <View style = {{paddingVertical: 5, paddingHorizontal: 10}}>
-      <Text style = {styles.toptxt}>Add Patient</Text>
+      <Text style = {styles.toptxt}>Add Visit</Text>
 
 
 
@@ -89,8 +86,8 @@ const Addvisit = () => {
       onPress={showDatepicker} 
       style={styles.datest}>
             <TextInput
-          style = {[styles.inputs,{width:360}]}
-          placeholder="Treatment Suggested"
+          style = {[styles.inputs,{width:310, paddingHorizontal: 50}]}
+          placeholder="YYYY-MM-dd"
           blurOnSubmit
           autoCorrect={false}
           maxLength={30}
@@ -99,7 +96,7 @@ const Addvisit = () => {
           value={date}
           onChangeText={text => setDate(text)}
           />
-      {date != "YYYY-MM-dd" ? '' :  <Image style={styles.icon} source={require('./date.png')} />}
+      {date != "YYYY-MM-dd" && '' ? '' :  <Image style={styles.icon} source={require('./date.png')} />}
 
       </TouchableOpacity>
 
@@ -182,8 +179,8 @@ const Addvisit = () => {
           maxLength={30}
           autoCapitalized="words"
           placeholderTextColor="#777"
-          value={country}
-          onChangeText={text => setCountry(text)}
+          value={fee}
+          onChangeText={text => setFee(text)}
       />
 
 
@@ -251,30 +248,32 @@ const Addvisit = () => {
 
       <Text style = {styles.lable}>Select Diagnosis</Text>
       <TextInput
-          style = {styles.inputs}
-          placeholder="Select Diagnosis"
-          blurOnSubmit
-          autoCorrect={false}
-          maxLength={30}
-          autoCapitalized="words"
-          placeholderTextColor="#777"
-          value={states}
-          onChangeText={text => setState(text)}
+        style = {[styles.inputs,{height: 100}]}
+        placeholder="Select Diagnosis"
+        multiline={true}
+        numberOfLines={4} // optional, to set the initial number of lines visible
+        onChangeText={text => setDiagnosis(text)}
+        value={diagnosis}
+        autoCorrect={false}
+        maxLength={30}
+        autoCapitalized="words"
+        placeholderTextColor="#777"
       />
 
 
 
       <Text style = {styles.lable}>History</Text>
       <TextInput
-          style = {styles.inputs}
-          placeholder="History"
-          blurOnSubmit
-          autoCorrect={false}
-          maxLength={30}
-          autoCapitalized="words"
-          placeholderTextColor="#777"
-          value={city}
-          onChangeText={text => setCity(text)}
+        style = {[styles.inputs,{height: 100}]}
+        placeholder="History"
+        multiline={true}
+        numberOfLines={4} // optional, to set the initial number of lines visible
+        onChangeText={text => setHistory(text)}
+        autoCorrect={false}
+        maxLength={30}
+        autoCapitalized="words"
+        placeholderTextColor="#777"
+        value={history}
       />
 
 {/* --------------------------------------------------------------------------------------------------- */}
@@ -305,16 +304,17 @@ const Addvisit = () => {
 {/* --------------------------------------------------------------------------------------------------- */}
       <Text style = {styles.lable}>Treatment Suggested</Text>
       <TextInput
-          style = {styles.inputs}
-          placeholder="Treatment Suggested"
-          blurOnSubmit
-          autoCorrect={false}
-          maxLength={30}
-          autoCapitalized="words"
-          placeholderTextColor="#777"
-          value={pincode}
-          onChangeText={text => setPincode(text)}
-          />
+        style = {[styles.inputs,{height: 100}]}
+        placeholder="Treatment Suggested"
+        multiline={true}
+        numberOfLines={4} // optional, to set the initial number of lines visible
+        onChangeText={text => setTreatment(text)}
+        autoCorrect={false}
+        maxLength={30}
+        autoCapitalized="words"
+        placeholderTextColor="#777"
+        value={treatment}
+      />
 
 </ScrollView>
 
@@ -362,6 +362,7 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         paddingLeft: 10,
         backgroundColor: "#E2E2E2",
+        color: 'black'
        },
     container:{
         width: "100%",

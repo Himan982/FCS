@@ -61,7 +61,7 @@ const [pass, setpass] = useState();
         onPress={signup}
         style = {styles.btn} 
         >
-          <Text style = {styles.btntext} >Sing up</Text>
+          <Text style = {styles.btntext} >Sign up</Text>
         </TouchableOpacity>
 
 
@@ -103,7 +103,8 @@ const styles = StyleSheet.create({
    marginHorizontal: 25,
    borderWidth: 1,
    borderRadius: 8,
-   borderColor: 'black'
+   borderColor: 'black',
+   color: 'black'
   },
 
   btn:{
@@ -112,8 +113,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     backgroundColor: "#1b75f0",
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "black"
   },
 
   btntext:{

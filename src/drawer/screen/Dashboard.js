@@ -11,9 +11,9 @@ const Dashboard = () => {
       <View style={{justifyContent: 'center'}}>
         <View style = {{flexDirection: 'row'}}>
         <Text style={styles.contatxt}>Patients Waiting | </Text>
-        <Text style={{marginTop: 25, fontSize: 15}}>Today</Text>
+        <Text style={styles.sidetxt}>Today</Text>
         </View>
-        <Text style = {{fontSize: 35, marginBottom: 10}}>145</Text>
+        <Text style = {styles.numbertxt}>145</Text>
       </View>
       </View>
         
@@ -22,9 +22,9 @@ const Dashboard = () => {
       <View style={{justifyContent: 'center'}}>
         <View style = {{flexDirection: 'row'}}>
         <Text style={styles.contatxt}>Appointments | </Text>
-        <Text style={{marginTop: 25, fontSize: 15}}>Today</Text>
+        <Text style={styles.sidetxt}>Today</Text>
         </View>
-        <Text style = {{fontSize: 35, marginBottom: 10}}>145</Text>
+        <Text style = {styles.numbertxt}>145</Text>
       </View>
       </View>
         
@@ -33,9 +33,9 @@ const Dashboard = () => {
       <View style={{justifyContent: 'center'}}>
         <View style = {{flexDirection: 'row'}}>
         <Text style={styles.contatxt}>Total Patients | </Text>
-        <Text style={{marginTop: 25, fontSize: 15}}>Today</Text>
+        <Text style={styles.sidetxt}>Today</Text>
         </View>
-        <Text style = {{fontSize: 35, marginBottom: 10}}>145</Text>
+        <Text style = {styles.numbertxt}>145</Text>
       </View>
       </View>
 
@@ -51,6 +51,16 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%',
         // backgroundColor: '#fff'
+    },
+    sidetxt:{
+      color: 'gray',
+      marginTop: 25,
+      fontSize: 15
+    },
+    numbertxt:{
+      fontSize: 35, 
+      marginBottom: 10,
+      color: 'gray',
     },
     conta:{
       marginHorizontal: 18,

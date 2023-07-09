@@ -6,6 +6,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const Addappointment = () => {
+
   const [date , setDate] = useState("YYYY-MM-dd");
   const [datepicker , setDatepicker] = useState(false);
 
@@ -32,8 +33,8 @@ const Addappointment = () => {
       onPress={showDatepicker} 
       style={styles.datest}>
             <TextInput
-          style = {[styles.inputs,{width:360}]}
-          placeholder="Treatment Suggested"
+          style = {[styles.inputs,{width:310, paddingHorizontal: 50}]}
+          placeholder="YYYY-MM-dd"
           blurOnSubmit
           autoCorrect={false}
           maxLength={30}
@@ -42,7 +43,7 @@ const Addappointment = () => {
           value={date}
           onChangeText={text => setDate(text)}
           />
-      {date != "YYYY-MM-dd" ? '' :  <Image style={styles.icon} source={require('./date.png')} />}
+      {date != "YYYY-MM-dd" && '' ? '' :  <Image style={styles.icon} source={require('./date.png')} />}
 
       </TouchableOpacity>
 
@@ -51,8 +52,7 @@ const Addappointment = () => {
         mode="date"
         onConfirm={handlConfirm}
         onCancel={hideDatepicker}
-      />
-      
+      />      
     </View>
   )
 }
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     fontWeight: '500',
     color: "black",
-    marginTop: 40
+    marginTop: 40,
 },
   toptxt:{
     color: 'black',
@@ -87,13 +87,15 @@ datetext:{
   fontSize: 25,
   color: "black",
   paddingHorizontal: 10,
-  textAlign: 'left'
+  textAlign: 'left',
+  color: 'black'
 },
 icon:{
   width:25,
   height:25,
   right:45,
-  marginTop: 20
+  marginTop: 20,
+  marginRight: 10
 },
 inputs:{
   fontSize: 20,
@@ -105,5 +107,7 @@ inputs:{
   borderColor: 'black',
   paddingLeft: 10,
   backgroundColor: "#E2E2E2",
+  paddingRight: 10,
+  color: 'black'
  },
 })

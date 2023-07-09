@@ -33,8 +33,8 @@ const CustomDrawer = ({navigation}) => {
         <Image 
         style = {styles.img}
         source={require('./logo.png')} />
-        <Text style = {[styles.top_text, {fontWeight: "800"}]}>YourCloset</Text>
-        <Text style = {styles.top_text}>support@YourClosetApp.com</Text>
+        <Text style = {[styles.top_text, {fontWeight: "800"}]}>YourApp</Text>
+        <Text style = {styles.top_text}>support@YourApp.com</Text>
       </View>
 
     
@@ -125,7 +125,8 @@ const styles = StyleSheet.create({
   btntext:{
     fontSize: 20,
     padding:5,
-    marginLeft: 30
+    marginLeft: 30,
+    color: 'black'
   },
 
   btn2:{

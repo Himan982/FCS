@@ -39,7 +39,7 @@ const Patientinfo = (props) => {
 
         <View style = {styles.table}>
             <Text style = {styles.lable}>Address</Text>
-            <Text style = {[styles.txt,{height: 150}]}>{name}</Text>
+            <Text style = {[styles.txt,{height: 100}]}>{name}</Text>
         </View>
 
         <View style = {styles.table}>
@@ -106,24 +106,23 @@ const styles = StyleSheet.create({
     
     },
     lable:{
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: '500',
         color: "black",
         marginTop: 5,
-        borderWidth: 1,
         paddingHorizontal: 10,
-        width: 190,
-        paddingVertical:5
+        width: 140,
+        borderBottomWidth: 1
     },
     txt:{
-        fontSize: 18,
+        fontSize: 17,
         color: "black",
         marginTop: 5,
-        borderWidth: 1,
         paddingHorizontal: 10,
-        height: 40,
+        height: 50,
         width: 210,
-        paddingVertical: 8
+        borderBottomWidth: 1,
+        paddingBottom: 2
     },
     btn:{
         width: 240,
