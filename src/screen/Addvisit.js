@@ -18,6 +18,7 @@ const Addvisit = () => {
     const [date , setDate] = useState("YYYY-MM-dd");
     const [datepicker , setDatepicker] = useState(false);
     const [treatment , setTreatment] = useState();
+    const [photo, setPhoto] = useState([]);
   
     const showDatepicker = () => {
       setDatepicker(true);
@@ -35,40 +36,54 @@ const Addvisit = () => {
 
 
     const save = () => {
-        console.log("running")
-    }
-
-
-    const opencamera =  () => {
-      let options = {
-        storageOptions:{
-          path:"image"
-        }
+    
+      // console.log(photo)
+      fetch('https://gottagging.000webhostapp.com/api/upload.php', {
+        method: 'POST',
+        headers: {
+          "Content-type": "application/json;"
+        },
+        body: FormData()
+        // body: JSON.stringify({
+        //   name : cameraphoto 
+        // }),
+      })
+        .then(response => response.json())
+        .then(json => console.log(json))
       }
-
+      
+      
+      const opencamera =  () => {
+        let options = {
+          storageOptions:{
+            path:"image"
+          }
+        }
+        
         launchCamera(options, response => {
+          setPhoto(response);
           setCameraphoto(response.assets[0].uri)
           setCameraphotoname(response.assets[0].fileName)
         })
-    }
-    
-    const opengallery = () => {
+      }
+      
+      const opengallery = () => {
         
         let options = {
-            storageOptions:{
-                path:"image"
-            }
+          storageOptions:{
+            path:"image"
+          }
         }
         
         launchImageLibrary(options,response => {
-            setCameraphoto(response.assets[0].uri)
-            setCameraphotoname(response.assets[0].fileName)
+          setCameraphoto(response.assets[0].uri)
+          setCameraphotoname(response.assets[0].fileName)
         })
       }
-    
-
-  return (
-    <>
+      
+      
+      return (
+        <>
     <View style = {{paddingVertical: 5, paddingHorizontal: 10}}>
       <Text style = {styles.toptxt}>Add Visit</Text>
 
