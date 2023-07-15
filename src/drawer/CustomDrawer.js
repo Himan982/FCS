@@ -48,7 +48,7 @@ const CustomDrawer = ({navigation}) => {
   const logout  = async () => {
     try {
       await AsyncStorage.clear()
-      navigation.navigate('Login');
+      navigation.navigate('Signup');
     } catch(e) {
       // clear error
     }

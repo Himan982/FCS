@@ -1,6 +1,7 @@
 import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import DropDownPicker from 'react-native-dropdown-picker'
+import CustomDropdown from './CustomDropdown'
 
 const Add_Patient = () => {
     const [name, setName] = useState()
@@ -40,7 +41,11 @@ const Add_Patient = () => {
       }
 
 
-
+      const count = () => {
+        return(
+          <CustomDropdown />
+        )
+      }
 
 
     const save = () => {
@@ -75,7 +80,12 @@ const Add_Patient = () => {
           onChangeText={text => setName(text)}
       />
       <View style= {{marginTop: 20}}></View>
-      <FlatList
+    
+    <CustomDropdown />
+    <CustomDropdown />
+    <CustomDropdown />
+
+      {/* <FlatList
         data={dropdowndata}
         style={{color: 'black', flexDirection: 'row'}}
         renderItem={({item, index}) => {
@@ -128,7 +138,7 @@ const Add_Patient = () => {
             </TouchableOpacity>
           );
         }}
-      />
+      /> */}
 
       <Text style = {styles.lable}>Address</Text>
       <TextInput

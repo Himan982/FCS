@@ -7,11 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Login = ({navigation}) => {
   useEffect(() => {
     getdata();
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      e.preventDefault();
-    })
-    return unsubscribe
-  },[navigation])
+  })
 
   const getdata = async () => {
     try {
@@ -22,36 +18,66 @@ const Login = ({navigation}) => {
         navigation.navigate('Home');
       }
     } catch (error) {
-      
+      console.log(error)
     }
   }
-
+  
   // const [isShowingText, setIsShowingText] = useState(true);
-  const [name, setname] = useState('');
+  const [email, setemail] = useState('');
   const [pass, setpass] = useState();
-
+  
   const login = async () => {
-    if (name == 'Admin' && pass == "123456") {
-      try {
-        await AsyncStorage.setItem('key', 'admin');
-        console.log('run')
-        navigation.navigate('Home');
-      } catch (e) {
+
+    console.log("call")
+    fetch('https://gottagging.000webhostapp.com/api/login.php', {
+      method: 'POST',
+      headers: {
+        "Content-type": "application/json;"
+      },
+      body: JSON.stringify({
+        email : email,
+        password : pass
+      }),
+      })
+      .then(response => response.json())
+      .then(json => {
+        let result = json.status;
+        console.log("login");
+        console.log(result)
+        if(result == "True")
+        {
+          navigation.navigate('Home');
+        }
+        else{
+          console.log("User is not created")
+
+        }
+      })
+
+
+    // if (name == 'Admin' && pass == "123456") {
+      // try {
+      //   await AsyncStorage.setItem('key', 'admin');
+      //   console.log('run')
+      //   navigation.navigate('Home');
+      // } catch (e) {
         
-      }
-    }
-    else if (name == 'Himanshu' && pass == "123456")
-    {
-      try {
-        await AsyncStorage.setItem('key', 'staff');
-        console.log('run')
-        navigation.navigate('Home');
-      } catch (e) {
+      //   console.log(e)
+      // }
+    // }
+    // else if (name == 'Himanshu' && pass == "123456")
+    // {
+    //   try {
+    //     await AsyncStorage.setItem('key', 'staff');
+    //     console.log('run')
+    //     navigation.navigate('Home');
+    //   } catch (e) {
         
-      }
-    } else{
-      console.log('try again')
-    }
+    //     console.log(e)
+    //   }
+    // } else{
+    //   console.log('try again')
+    // }
   }
 
   function singup() {
@@ -66,14 +92,14 @@ const Login = ({navigation}) => {
       source={require('./logo.jpg')} />
        <TextInput
           style = {styles.inputs}
-          placeholder="Your Name"
+          placeholder="Your email"
           blurOnSubmit
           autoCorrect={false}
           maxLength={30}
           autoCapitalized="words"
           placeholderTextColor="#777"
-          value={name}
-          onChangeText={text => setname(text)}
+          value={email}
+          onChangeText={text => setemail(text)}
         />
        <TextInput
           style = {styles.inputs}

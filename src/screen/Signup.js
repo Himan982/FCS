@@ -1,4 +1,4 @@
-import { View, Text, Button, TextInput, StyleSheet, Image } from 'react-native'
+import { View, Text, Button, TextInput, StyleSheet, Image, ToastAndroid } from 'react-native'
 import React, {useState, useEffect} from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,11 +8,7 @@ const Singup = ({navigation}) => {
 
   useEffect(() => {
     getdata();
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      return true
-    })
-    return unsubscribe
-  },[navigation])
+  })
 
   const getdata = async () => {
     try {
@@ -36,8 +32,32 @@ const [pass, setpass] = useState();
         navigation.navigate('Login');
   }
 
-  function signup() {
-        navigation.navigate('Login');
+  const signup = () => {
+    console.log("call")
+    fetch('https://gottagging.000webhostapp.com/api/signup.php', {
+      method: 'POST',
+      headers: {
+        "Content-type": "application/json;"
+      },
+      body: JSON.stringify({
+        username : name,
+        email : email,
+        password : pass
+      }),
+      })
+      .then(response => response.json())
+      .then(json => {
+        let result = json.status;
+        console.log("login");
+        if(result == "true")
+        {
+          navigation.navigate('Login');
+        }
+        else{
+          console.log("User is not created")
+
+        }
+      })
   }
 
   return (

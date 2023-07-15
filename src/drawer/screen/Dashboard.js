@@ -2,6 +2,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useBackHandler } from '@react-native-community/hooks';
+import {Alert,ToastAndroid ,BackHandler, useColorScheme,} from 'react-native';
+
 
 
 const Dashboard = () => {
@@ -9,17 +12,43 @@ const Dashboard = () => {
 
   const [check, setChack] = useState(false);
   const navigation = useNavigation()
+  const [backPressCount, setBackPressCount] = useState(0);
   const route = useRoute();
+
 
   useEffect(() => {
     getdata();
-    console.log(check)
     const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      return true
+      e.preventDefault();
     })
-    // console.log(unsubscribe)
     return unsubscribe
   },[navigation])
+
+function backActionHandler()
+{
+  if(backPressCount < 1)
+  {
+    ToastAndroid.show('Press back again to exit', ToastAndroid.SHORT);
+    navigation.navigate('Home')
+    setBackPressCount(backPressCount + 1);
+    setTimeout(() => {
+      setBackPressCount(0);
+    }, 2000);
+  }else{
+
+  Alert.alert('','are you sure to exot the app?'), [{
+    text: 'NO',
+    onPress: () => BackHandler.exitApp(),
+    styles: 'cancel'
+  },{
+    text: 'Yes',
+    onPress: () => BackHandler.exitApp(),
+  }];
+  return true;
+}
+}
+
+useBackHandler(backActionHandler);
 
 
   const getdata = async () => {
@@ -29,13 +58,13 @@ const Dashboard = () => {
       {
         console.log(flag)
         setChack(true);
-        // navigation.navigate('Home');
+        navigation.navigate('Home');
       }
       else if(flag == null)
       {
         console.log(flag)
         setChack(false);
-        // navigation.navigate('Home');
+        navigation.navigate('Login');
       }
     } catch (error) {
       setChack(false);

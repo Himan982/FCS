@@ -11,6 +11,7 @@ const Patients = (props) => {
   const [visible, setVisible] = useState(false);
   const searchRef = useRef();
 
+
   useEffect(() => {
     getData();
 }, []);
