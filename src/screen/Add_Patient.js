@@ -1,9 +1,15 @@
-import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
-import DropDownPicker from 'react-native-dropdown-picker'
+import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, ToastAndroid } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomDropdown from './CustomDropdown'
 
 const Add_Patient = () => {
+  useEffect(() => {
+    getdata();
+  });
+
+
+    const [username, setUsername] = useState()
     const [name, setName] = useState()
     const [country, setCountry] = useState('Country')
     const [states, setState] = useState('States')
@@ -13,11 +19,25 @@ const Add_Patient = () => {
     const [number, setNumber] = useState()
     const [alternateNumber, setAlternateNumber] = useState()
     const [category, setCategory] = useState('New')
-    const [selected, setSelected] = useState()
+    const [selected, setSelected] = useState(1)
     const [dropdowndata, setDropdowndata] = useState([
       {data: ['India', 'USA', 'China'], isSelect: false},
       {data: ['Madhya Pradesh', 'Bihar', 'Mumbai'], isSelect: false},
       {data: ['Indore', 'Bhopal', 'Ahemdabad'], isSelect: false}])
+
+
+      const getdata = async () => {
+        try {
+          let flag = await AsyncStorage.getItem('username');
+          if(flag != null)
+          {
+            console.log(username)
+            setUsername(flag);
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
 
       const select = index => {
         let tempdata=dropdowndata;
@@ -41,15 +61,50 @@ const Add_Patient = () => {
       }
 
 
-      const count = () => {
-        return(
-          <CustomDropdown />
-        )
-      }
-
-
     const save = () => {
-        console.log("running")
+        console.log(name+ " "
+        + " " + country
+        + " " + states
+        + " " + city
+        + " " + address
+        + " " + pincode
+        + " " + number
+        + " " + alternateNumber
+        + " " + category
+        )
+
+        fetch('https://gottagging.000webhostapp.com/api/addpatient.php', {
+          method: 'POST',
+          headers: {
+            "Content-type": "application/json;"
+          },
+          body: JSON.stringify({
+          username: username, 
+          pname : name, 
+          country : country, 
+          state : states, 
+          city : city, 
+          address : address, 
+          pincode : pincode, 
+          mobilenum : number, 
+          alternatemobilenum : alternateNumber, 
+          ptype : category
+          }),
+          })
+          .then(response => response.json())
+          .then(json => {
+            let result = json.status;          
+            if(result == "true")
+            {
+              console.log(result)
+              ToastAndroid.show('Patient is added successfully', ToastAndroid.SHORT)
+
+            }
+            else{
+              ToastAndroid.show("Patient not added" , ToastAndroid.SHORT)
+    
+            }
+          })
     }
   return (
 
@@ -81,11 +136,11 @@ const Add_Patient = () => {
       />
       <View style= {{marginTop: 20}}></View>
     
+    {/* <CustomDropdown />
     <CustomDropdown />
-    <CustomDropdown />
-    <CustomDropdown />
+    <CustomDropdown /> */}
 
-      {/* <FlatList
+      <FlatList
         data={dropdowndata}
         style={{color: 'black', flexDirection: 'row'}}
         renderItem={({item, index}) => {
@@ -138,7 +193,7 @@ const Add_Patient = () => {
             </TouchableOpacity>
           );
         }}
-      /> */}
+      />
 
       <Text style = {styles.lable}>Address</Text>
       <TextInput

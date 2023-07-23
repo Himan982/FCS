@@ -11,6 +11,7 @@ import Patientinfo from './screen/Patientinfo';
 import Addvisit from './screen/Addvisit';
 import Addappointment from './screen/Addappointment';
 import Dashboard from './drawer/screen/Dashboard';
+import Details from './screen/Details';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,7 @@ const Nav = () => {
             <Stack.Screen name='Addvisit' component={Addvisit} options={{headerShown: false}}/>
             <Stack.Screen name='Addappointment' component={Addappointment} options={{headerShown: false}}/>
             <Stack.Screen name='Dashboard' component={Dashboard} options={{headerShown: false}}/>
+            <Stack.Screen name='Details' component={Details} options={{headerShown: false}}/>
         </Stack.Navigator>
     </NavigationContainer>
   )

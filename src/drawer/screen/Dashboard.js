@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useBackHandler } from '@react-native-community/hooks';
 import {Alert,ToastAndroid ,BackHandler, useColorScheme,} from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 
@@ -29,14 +30,13 @@ function backActionHandler()
   if(backPressCount < 1)
   {
     ToastAndroid.show('Press back again to exit', ToastAndroid.SHORT);
-    navigation.navigate('Home')
     setBackPressCount(backPressCount + 1);
     setTimeout(() => {
       setBackPressCount(0);
     }, 2000);
   }else{
 
-  Alert.alert('','are you sure to exot the app?'), [{
+  Alert.alert('','are you sure to exit the app?'), [{
     text: 'NO',
     onPress: () => BackHandler.exitApp(),
     styles: 'cancel'
@@ -53,10 +53,12 @@ useBackHandler(backActionHandler);
 
   const getdata = async () => {
     try {
-      let flag = await AsyncStorage.getItem('key');
+      let uname = await AsyncStorage.getItem('username');
+      let flag = await AsyncStorage.getItem('usertype');
+      console.log(flag + uname);
       if(flag != '')
       {
-        console.log(flag)
+        console.log("deshbord "+flag)
         setChack(true);
         navigation.navigate('Home');
       }
@@ -85,16 +87,22 @@ useBackHandler(backActionHandler);
       </View>
       </View>
         
-      <View style = {styles.conta}>
-      <Image style={styles.contaimg} source={require('./img/appoiltment.png')}/>
-      <View style={{justifyContent: 'center'}}>
-        <View style = {{flexDirection: 'row'}}>
-        <Text style={styles.contatxt}>Appointments | </Text>
-        <Text style={styles.sidetxt}>Today</Text>
+
+      <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('Details');
+      }}>
+        <View style = {styles.conta}>
+        <Image style={styles.contaimg} source={require('./img/appoiltment.png')}/>
+        <View style={{justifyContent: 'center'}}>
+          <View style = {{flexDirection: 'row'}}>
+          <Text style={styles.contatxt}>Appointments | </Text>
+          <Text style={styles.sidetxt}>Today</Text>
+          </View>
+          <Text style = {styles.numbertxt}>145</Text>
         </View>
-        <Text style = {styles.numbertxt}>145</Text>
-      </View>
-      </View>
+        </View>
+      </TouchableOpacity> 
         
       <View style = {styles.conta}>
       <Image style={styles.contaimg} source={require('./img/total.png')}/>

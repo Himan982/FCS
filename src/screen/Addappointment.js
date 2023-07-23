@@ -1,11 +1,11 @@
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Image, StyleSheet, Text, TextInput, View, ToastAndroid } from 'react-native'
 import React, { useState } from 'react'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 
-const Addappointment = () => {
+const Addappointment = (props) => {
 
   const [date , setDate] = useState("YYYY-MM-dd");
   const [datepicker , setDatepicker] = useState(false);
@@ -22,6 +22,38 @@ const Addappointment = () => {
     var dt = result.substring(1, 11)
     setDate(dt)
     hideDatepicker();
+  }
+
+  const addappointment = () => {
+    fetch('https://gottagging.000webhostapp.com/api/addappointment.php', {
+          method: 'POST',
+          headers: {
+            "Content-type": "application/json;"
+          },
+          body: JSON.stringify({
+            pid: props.route.params.pid,
+            username: props.route.params.username,
+            pname: props.route.params.pname,
+            date : date,
+            pcontactno: props.route.params.mobilenum,
+            paddress: props.route.params.address,
+            time: "0"
+          }),
+          })
+          .then(response => response.json())
+          .then(json => {
+            let result = json.status;          
+            if(result == "true")
+            {
+              console.log(result)
+              ToastAndroid.show('Appointment is added successfully', ToastAndroid.SHORT)
+            }
+            else{
+              ToastAndroid.show("Appointment not added" , ToastAndroid.SHORT)
+    
+            }
+          })
+    // console.log(props.route.params.pname)
   }
 
   return (
@@ -53,6 +85,14 @@ const Addappointment = () => {
         onConfirm={handlConfirm}
         onCancel={hideDatepicker}
       />      
+
+      <TouchableOpacity 
+        style = {styles.btn2}
+        onPress={addappointment}
+        >
+            <Text style = {styles.btntext2}>Save</Text>
+      </TouchableOpacity>
+
     </View>
   )
 }
@@ -110,4 +150,22 @@ inputs:{
   paddingRight: 10,
   color: 'black'
  },
+ btn2:{
+  alignSelf: "center",
+  marginTop: 10,
+  width: 100,
+  alignItems: "center",
+  backgroundColor: "#1b75f0",
+  padding: 3,
+  borderRadius: 8,
+  justifyContent: 'center',
+  marginBottom: 50,
+  paddingHorizontal: 10
+  
+},
+
+btntext2:{
+  fontSize: 20,
+  color: "white"
+},
 })

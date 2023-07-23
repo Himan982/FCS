@@ -2,15 +2,20 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState, useEffect } from 'react'
 
 const Patientinfo = (props) => {
+    useEffect(() => {
+        setName(props.route.params.name);
+        setPhone(props.route.params.mobilenum);
+        setUsername(props.route.params.username)
+        console.log(username)
+        // apicall();
+    });
 
     const [name,setName] = useState();
     const [phone,setPhone] = useState();
+    const [username, setUsername] = useState()
+    const [patient, setPatient] = useState()
 
-    useEffect(() => {
-        setName(props.route.params.name);
-        setPhone(props.route.params.phone);
-        
-    })
+
 
   return (
     <View style = {{paddingVertical: 5, paddingHorizontal: 10}}>
@@ -18,55 +23,55 @@ const Patientinfo = (props) => {
 
         <View style = {styles.table}>
             <Text style = {styles.lable}>Patient Name</Text>
-            <Text style = {styles.txt}>{name}</Text>
+            <Text style = {styles.txt}>: {props.route.params.pname}</Text>
         </View>
         
 
         <View style = {styles.table}>
             <Text style = {styles.lable}>Country</Text>
-            <Text style = {styles.txt}>{name}</Text>
+            <Text style = {styles.txt}>: {props.route.params.country}</Text>
         </View>
 
         <View style = {styles.table}>
             <Text style = {styles.lable}>State</Text>
-            <Text style = {styles.txt}>{name}</Text>
+            <Text style = {styles.txt}>: {props.route.params.state}</Text>
         </View>
 
         <View style = {styles.table}>
             <Text style = {styles.lable}>City</Text>
-            <Text style = {styles.txt}>{name}</Text>
+            <Text style = {styles.txt}>: {props.route.params.city}</Text>
         </View>
 
         <View style = {styles.table}>
             <Text style = {styles.lable}>Address</Text>
-            <Text style = {[styles.txt,{height: 100}]}>{name}</Text>
+            <Text style = {[styles.txt,{height: 80}]}>: {props.route.params.address}</Text>
         </View>
 
         <View style = {styles.table}>
             <Text style = {styles.lable}>Pincode</Text>
-            <Text style = {styles.txt}>{name}</Text>
+            <Text style = {styles.txt}>: {props.route.params.pincode}</Text>
         </View>
 
         <View style = {styles.table}>
             <Text style = {styles.lable}>Mobile Number</Text>
-            <Text style = {styles.txt}>{phone}</Text>
+            <Text style = {styles.txt}>: {props.route.params.mobilenum}</Text>
         </View>
 
         <View style = {styles.table}>
-            <Text style = {styles.lable}>Alternate Number</Text>
-            <Text style = {styles.txt}>{phone}</Text>
+            <Text style = {styles.lable}>Alternate No</Text>
+            <Text style = {styles.txt}>: {props.route.params.alternatemobilenum}</Text>
         </View>
 
         <View style = {styles.table}>
             <Text style = {styles.lable}>Category</Text>
-            <Text style = {styles.txt}>{name}</Text>
+            <Text style = {styles.txt}>: {props.route.params.ptype}</Text>
         </View>
 
         <View>
 
             <TouchableOpacity
             onPress={() => {
-                props.navigation.navigate('Addvisit' ,{name: name, phone: phone})
+                props.navigation.navigate('Addvisit' ,{pid : props.route.params.pid ,pname: props.route.params.pname ,mobilenum: props.route.params.mobilenum, address: props.route.params.address, username: props.route.params.username})
             }}
             style = {styles.btn} 
             >
@@ -77,7 +82,7 @@ const Patientinfo = (props) => {
 
             <TouchableOpacity
             onPress={() => {
-                props.navigation.navigate('Addappointment' ,{name: name, phone: phone})
+                props.navigation.navigate('Addappointment' ,{pid : props.route.params.pid ,pname: props.route.params.pname ,mobilenum: props.route.params.mobilenum, address: props.route.params.address, username: props.route.params.username})
             }}
             style = {styles.btn} 
             >
@@ -119,7 +124,7 @@ const styles = StyleSheet.create({
         color: "black",
         marginTop: 5,
         paddingHorizontal: 10,
-        height: 50,
+        height: 30,
         width: 210,
         borderBottomWidth: 1,
         paddingBottom: 2

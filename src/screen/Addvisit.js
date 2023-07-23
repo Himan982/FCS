@@ -6,10 +6,9 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 const Addvisit = () => {
 
     const [fee, setFee] = useState()
-    const [country, setCountry] = useState()
     const [diagnosis, setDiagnosis] = useState()
     const [history, setHistory] = useState()
-    const [category, setCategory] = useState('New')
+    const [category, setCategory] = useState('Paid Visit')
     const [selected, setSelected] = useState(1)
     const [categorypay, setCategorypay] = useState('Cash')
     const [selectedpay, setSelectedpay] = useState(1)

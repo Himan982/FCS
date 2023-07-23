@@ -9,7 +9,7 @@ const Splash = ({navigation}) => {
 
     const getdata = async () => {
       try {
-        let flag = await AsyncStorage.getItem('key');
+        let flag = await AsyncStorage.getItem('usertype');
         console.log(flag)
         if(flag != null)
         {
@@ -34,7 +34,7 @@ const Splash = ({navigation}) => {
     <View style = {styles.container}>
       <Image 
       style = {styles.logo}
-      source={require('./logo.jpg')} />
+      source={require('./splash.jpeg')} />
     </View>
   )
 }
@@ -49,9 +49,9 @@ const styles = StyleSheet.create({
     },
     logo:{
         alignSelf: "center",
-        marginTop: 280,
-        height: 200,
-        width: 200
+        marginTop: "80%",
+        height: 100,
+        width: 350
 
     }
 })

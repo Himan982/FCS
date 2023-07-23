@@ -4,14 +4,14 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const Login = ({navigation}) => {
+const Login = (props) => {
   useEffect(() => {
     getdata();
-  })
+  });
 
   const getdata = async () => {
     try {
-      let flag = await AsyncStorage.getItem('key');
+      let flag = await AsyncStorage.getItem('usertype');
       if(flag != null)
       {
         console.log(flag)
@@ -25,63 +25,61 @@ const Login = ({navigation}) => {
   // const [isShowingText, setIsShowingText] = useState(true);
   const [email, setemail] = useState('');
   const [pass, setpass] = useState();
+  const [username, setUsername] = useState();
+  const [usertype, setUsertype] = useState();
   
-  const login = async () => {
+  const login = () => {
+      apicall();
+    }
 
-    console.log("call")
-    fetch('https://gottagging.000webhostapp.com/api/login.php', {
-      method: 'POST',
-      headers: {
-        "Content-type": "application/json;"
-      },
-      body: JSON.stringify({
-        email : email,
-        password : pass
-      }),
-      })
-      .then(response => response.json())
-      .then(json => {
-        let result = json.status;
-        console.log("login");
-        console.log(result)
-        if(result == "True")
-        {
-          navigation.navigate('Home');
-        }
-        else{
-          console.log("User is not created")
+    const apicall = () => {
+      console.log("call")
+      fetch('https://gottagging.000webhostapp.com/api/login.php', {
+        method: 'POST',
+        headers: {
+          "Content-type": "application/json;"
+        },
+        body: JSON.stringify({
+          email : email,
+          password : pass
+        }),
+        })
+        .then(response => response.json())
+        .then(json => {
+          let result = json.status;
+          let utype = json.usertype;
+          let uname = json.username;
 
-        }
-      })
+          console.log(uname + " " + utype)
+          // let count = 0;
+          
+          console.log("login");
+          console.log(result)
+          if(result == "True")
+          {
+            props.navigation.navigate('Home' ,{usertype: utype , username: uname});
+
+            // setUsertype(utype);
+            // setUsername(uname);
+            // console.log(utype);
+            // console.log(uname);
 
 
-    // if (name == 'Admin' && pass == "123456") {
-      // try {
-      //   await AsyncStorage.setItem('key', 'admin');
-      //   console.log('run')
-      //   navigation.navigate('Home');
-      // } catch (e) {
-        
-      //   console.log(e)
-      // }
-    // }
-    // else if (name == 'Himanshu' && pass == "123456")
-    // {
-    //   try {
-    //     await AsyncStorage.setItem('key', 'staff');
-    //     console.log('run')
-    //     navigation.navigate('Home');
-    //   } catch (e) {
-        
-    //     console.log(e)
-    //   }
-    // } else{
-    //   console.log('try again')
-    // }
-  }
+            // const firstPair = ["username", uname]
+            // const secondPair = ["usertype", utype]
+            // console.log(firstPair+" "+secondPair);
+            // setData();
+          }
+          else{
+            console.log("User is not created")
+  
+          }
+        })
+    }
+
 
   function singup() {
-        navigation.navigate('Signup');
+        props.navigation.navigate('Signup');
   }
 
 
@@ -89,7 +87,7 @@ const Login = ({navigation}) => {
     <View style = {styles.container}>
       <Image 
       style = {styles.logo}
-      source={require('./logo.jpg')} />
+      source={require('./logo.jpeg')} />
        <TextInput
           style = {styles.inputs}
           placeholder="Your email"
@@ -143,7 +141,7 @@ const styles = StyleSheet.create({
 
   },
   logo:{
-    height: 150,
+    height: 180,
     width: 150,
     alignSelf: "center",
     marginTop: 100,

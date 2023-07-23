@@ -1,5 +1,6 @@
 import { FlatList, Image, RefreshControl, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Patients = (props) => {
@@ -10,27 +11,44 @@ const Patients = (props) => {
   const [OldData, setOldData] = useState([]);
   const [visible, setVisible] = useState(false);
   const searchRef = useRef();
-
+  const [username, setUsername] = useState()
 
   useEffect(() => {
+    get();
     getData();
 }, []);
 
+const get = async () => {
+    try {
+      let flag = await AsyncStorage.getItem('username');
+      console.log(flag)
+      setUsername(flag)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 const getData = () => {
     setLoading(true);
-    fetch('https://fakestoreapi.com/products')
-        .then(res=>res.json())
-        .then(json=> {
-            setLoading(false)
+    fetch('https://gottagging.000webhostapp.com/api/fetchallpatients.php', {
+        method: 'POST',
+        headers: {
+            "Content-type": "application/json;"
+        },
+        body: JSON.stringify({
+            username : "himanshu"
+        }),
+        })
+        .then(response => response.json())
+        .then(json => {
             setProducts(json);
-            setOldData(json);
-        }); 
+            setOldData(json)
+            setLoading(false)
+        })
 }
 
-
-
-const it = (na, ph) =>{
-    props.navigation.navigate('Patientinfo' ,{name: na, phone: ph})
+const it = (pid, pname, mobilenum, address, city, state, pincode, ptype, username, alternatemobilenum, country) =>{
+    props.navigation.navigate('Patientinfo' ,{pid : pid ,pname: pname ,mobilenum: mobilenum, address: address, city: city, state: state, pincode: pincode, ptype: ptype ,username: username, alternatemobilenum: alternatemobilenum, country: country})
 }
 
 const onSearch=(text) => {
@@ -41,7 +59,7 @@ const onSearch=(text) => {
     }else{
         tempList = products.filter(item => {
             setVisible(false)
-            return item.title.toLowerCase().indexOf(text.toLowerCase()) > -1;
+            return item.pname.toLowerCase().indexOf(text.toLowerCase()) > -1;
         });
         if(tempList.length == 0){
             setVisible(true)
@@ -110,14 +128,14 @@ return (
           renderItem={({item, index}) => {
               return <TouchableOpacity
               onPress={() => {
-                  it(item.title, item.price);
+                  it(item.pid, item.pname, item.mobilenum, item.address, item.city, item.state, item.pincode, item.ptype, item.username, item.alternatemobilenum, item.country);
               }}>
                       <View style={styles.itemView}>
                           <View style = {{marginLeft: 10}}>
-                              <Text style = {styles.nametxt}>{item.title.length > 30
-                              ? item.title.substring(0, 30) + '...'
-                              : item.title}</Text>
-                              <Text style={styles.price} >{item.price + " $"}</Text>
+                              <Text style = {styles.nametxt}>{item.pname.length > 30
+                              ? item.pname.substring(0, 30) + '...'
+                              : item.pname}</Text>
+                              <Text style={styles.price} >{item.mobilenum}</Text>
                           </View>
                       </View>
               </TouchableOpacity>
@@ -146,12 +164,12 @@ const styles = StyleSheet.create({
       alignItems: 'center'
   },
   nametxt:{
-    fontSize: 15,
+    fontSize: 20,
+    fontWeight: 'bold',
     color: 'black'
   },
   price:{
-      fontWeight: 'bold',
-      fontSize: 20,
+      fontSize: 15,
       marginTop: 2,
       color: 'black'
   },

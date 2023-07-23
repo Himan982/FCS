@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const Singup = ({navigation}) => {
+const Singup = (props) => {
 
   useEffect(() => {
     getdata();
@@ -16,7 +16,7 @@ const Singup = ({navigation}) => {
       if(flag != null)
       {
         console.log(flag)
-        navigation.navigate('Home');
+        props.navigation.navigate('Home');
       }
     } catch (error) {
       
@@ -29,8 +29,8 @@ const [pass, setpass] = useState();
 
 
     function login() {
-        navigation.navigate('Login');
-  }
+        props.navigation.navigate('Login');
+      }
 
   const signup = () => {
     console.log("call")
@@ -64,7 +64,7 @@ const [pass, setpass] = useState();
     <View style = {styles.container}>
       <Image 
       style = {styles.logo}
-      source={require('./logo.jpg')} />
+      source={require('./logo.jpeg')} />
        <TextInput
           style = {styles.inputs}
           placeholder="Your Name"
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
 
   },
   logo:{
-    height: 150,
+    height: 180,
     width: 150,
     alignSelf: "center",
     marginTop: 100,

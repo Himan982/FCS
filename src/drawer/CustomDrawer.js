@@ -14,7 +14,7 @@ const CustomDrawer = ({navigation}) => {
 
   const getdata = async () => {
     try {
-      let flag = await AsyncStorage.getItem('key');
+      let flag = await AsyncStorage.getItem('usertype');
       if(flag == 'admin')
       {
         setVisible(true)
